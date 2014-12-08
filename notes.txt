@@ -1,0 +1,4 @@
+1. Is this kind of scrolling ok?
+2. hard code map
+3. how to decide how many files to have; lib.py?
+4. pyglet????

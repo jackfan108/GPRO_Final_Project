@@ -1,6 +1,6 @@
 import pyglet
-
-window = pyglet.window.Window(fullscreen = True)
+#window = pyglet.window.Window(fullscreen = True)
+window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
 #print 'window', window.__dict__
 #image = pyglet.resource.image('image/map1.png')
 #image = pyglet.sprite.Sprite(image)
@@ -12,6 +12,7 @@ music.queue(pyglet.resource.media('audio/login_music.mp3'))
 music.play()
 music.next()
 music.eos_action = music.EOS_NEXT
+
 
 
 class Player(object):
@@ -32,8 +33,9 @@ class Player(object):
         self.y += dy
         self.img.x += dx
         self.img.y += dy
+        
 background = Player(0, 0, 'image/map1.png')
-player = Player(200, 100, 'image/android.png', 0.5)   
+player = Player(200, 100, 'image/android.png', 0.5)  
 
 
 @window.event
@@ -91,13 +93,15 @@ def on_key_release(symbol, modifiers):
 
 
 def update(dt):
+    pass
     player.move(player.speedx, player.speedy)
     background.move(background.speedx, background.speedy)
-    #sprite.x += dt * 10
 
 # Call update 60 times a second
 pyglet.clock.schedule_interval(update, 1/60.)
 
 """logs all the events to the console"""
 #window.push_handlers(pyglet.window.event.WindowEventLogger())
-pyglet.app.run()
+
+if __name__ == '__main__':
+     pyglet.app.run()
