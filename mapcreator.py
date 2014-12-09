@@ -1,5 +1,6 @@
 import pyglet
 import pickle
+from Map import *
 #from lib import *
 
 """This script allows the user to manually draw lines for ground of a map 
@@ -7,69 +8,7 @@ import pickle
     and start drawing. Hold mouse left to start a line and release at the
     end point of the line. """
 
-class Map(object):
-    
-    def __init__(self, img, ratio = 1, ground = [], rope = []):
-        self.imgName = img
-        self.ratio = ratio
-        self.img = pyglet.resource.image(img)
-        self.img.height = int(self.img.height * ratio)
-        self.img.width = int(self.img.width * ratio)
-        self.img = pyglet.sprite.Sprite(self.img)
-        self.spdx = 0
-        self.spdy = 0
-        self.cord = Cord(0,0)
-        self.ground = ground
-        self.rope = rope
 
-    def move(self, dx, dy):
-        self.cord.x += dx
-        self.cord.y += dy
-        self.img.x += dx
-        self.img.y += dy
-        [ground.move(dx,dy) for ground in self.ground]
-
-    def reduceForPickle(map):
-        return (map.imgName, map.ratio, map.ground, map.rope, map.cord)
-
-    @classmethod
-    def reloadFromPickle(c, data):
-        mapp = Map(data[0], ratio = data[1], ground = data[2], rope = data[3])
-        mapp.cord = data[4]
-        print mapp.cord
-        return mapp
-
-class Cord(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __str__(self):
-        return "cordinate is (" + str(self.x) + ', ' + str(self.y) + ')'
-
-    def add(a, b):
-        return Cord(a.x + b.x, a.y + b.y)
-
-    def subtract(a, b):
-        return Cord(a.x - b.x, a.y - b.y)
-
-class Ground(object):
-
-    def __init__(self, refmap, left, right):
-        self.left = Cord.add(refmap.cord, left)
-        self.right = Cord.add(refmap.cord, right)   
-
-    def move(self, dx, dy):
-        self.left.x += dx
-        self.right.x += dx
-        self.left.y += dy
-        self.right.y += dy
-
-class Rope(object):
-
-    def __init__(self, top, bottom):
-        self.top = top
-        self.bottom = bottom
 
 if __name__ == '__main__':
     #window = pyglet.window.Window(fullscreen = True)
@@ -125,8 +64,7 @@ if __name__ == '__main__':
             background.spdy = 0
         if symbol == 100:
             print background.ground
-            backgrounddump = Map.reduceForPickle(background)
-            pickle.dump(backgrounddump, open( "test.p", "wb" ) )
+            Map.pickleDump(background, 'test.p')
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -151,7 +89,6 @@ if __name__ == '__main__':
         if printcount%60 == 0:
             for ground in background.ground:
                 print ground.left, ground.right
-            print ':DD'
             printcount = 0
         printcount += 1
         #sprite.x += dt * 10
