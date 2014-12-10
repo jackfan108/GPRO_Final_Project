@@ -1,4 +1,4 @@
-import pyglet
+    import pyglet
 from Map import *
 import pickle
 

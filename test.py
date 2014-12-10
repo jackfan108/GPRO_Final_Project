@@ -58,7 +58,6 @@ def on_key_press(symbol, modifiers):
 
 @window.event
 def on_text_motion(motion, *args):
-    print 'fjdakl;'
     if motion == 65361:
         player.speedx = -3
         background.speedx = 10
@@ -74,7 +73,6 @@ def on_text_motion(motion, *args):
 
 @window.event
 def on_key_release(symbol, modifiers):
-    print 'fjdka;l'
     if symbol == 65361:
         player.speedx = 0
         background.speedx = 0

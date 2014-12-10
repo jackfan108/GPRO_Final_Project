@@ -4,7 +4,7 @@ import os
 import matplotlib.image as mpimg
 
 
-path = os.path.dirname(os.path.abspath(__file__)) + '/image/JackSprite/'
+path = os.path.dirname(os.path.abspath(__file__)) + '/image/Jack/'
 spritelist = [f for f in os.listdir(path)]
 for spritename in spritelist:
     name = spritename[:-4]
