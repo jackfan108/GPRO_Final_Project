@@ -3,7 +3,7 @@ import pickle
 
 class Map(object):
     
-    def __init__(self, img, ratio = 1, ground = [], rope = [], limit = (0, 0)):
+    def __init__(self, img, ratio = 1, ground = [], rope = [], xlim = 0, ylim = 0):
         self.imgName = img
         self.ratio = ratio
         self.img = pyglet.resource.image(img)
@@ -15,24 +15,30 @@ class Map(object):
         self.cord = Cord(0,0)
         self.ground = ground
         self.rope = rope
-        self.lim = limit
+        self.xlim = xlim
+        self.ylim = ylim
 
     def move(self, dx, dy):
-        if self.lim[1] <= self.cord.x + dx <= self.lim[0]:
-            self.cord.x += dx
-            self.cord.y += dy
-            self.img.x += dx
-            self.img.y += dy
-            [ground.move(dx,dy) for ground in self.ground]
+        self.cord.x += dx
+        self.cord.y += dy
+        self.img.x += dx
+        self.img.y += dy
+        [ground.move(dx,dy) for ground in self.ground]
+
+    def XinLim(self, x=0):
+        return self.xlim[1] <= self.cord.x + x <= self.xlim[0]
+
+    def YinLim(self, y=0):
+        return self.ylim[1] <= self.cord.y + y <= self.ylim[0]
 
     def pickleDump(self, filename):
-        raw = (self.imgName, self.ratio, self.ground, self.rope, self.cord, self.lim)
+        raw = (self.imgName, self.ratio, self.ground, self.rope, self.cord, self.xlim, self.ylim)
         pickle.dump(raw, (open(filename, "wb")))
 
     @classmethod
     def pickleLoad(c, filename):
         f = pickle.load(open(filename, "rb"))
-        mapp = Map(f[0], ratio = f[1], ground = f[2], rope = f[3], limit = f[5])
+        mapp = Map(f[0], ratio = f[1], ground = f[2], rope = f[3], xlim = f[5], ylim = f[6]) #''', limit = f[5]''')
         mapp.cord = f[4]
         mapp.img.set_position(mapp.cord.x, mapp.cord.y)
         mapp.move(-mapp.cord.x-950, -mapp.cord.y-200) # 2557, 1552 (-40) & (-1750)

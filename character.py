@@ -4,17 +4,18 @@ import Image
 from sprite import *
 
 class Character(object):
-    def __init__(self, x, y, path, speedx = 0, speedy = 0):
+    def __init__(self, x, y, path, spdx = 0, spdy = 0):
         self.x = x
         self.y = y
-        self.speedx = speedx
-        self.speedy = speedy
+        self.spdx = spdx
+        self.spdy = spdy
         self.sprite = Sprite(path)
         print self.sprite
         self.img = self.sprite.sprite['walk1L'][0]
         self.img.x = self.x
         self.img.y = self.y
         self.frame = 0
+        self.framespd = 1.0/3
         self.anime = self.sprite.sprite['walk1L']
 
     def move(self, dx, dy):
@@ -27,7 +28,8 @@ class Character(object):
         self.img.draw()
 
     def nextframe(self):
-        self.frame += 1
-        self.img.x = self.x
-        self.img.y = self.y
-        self.img = self.anime[self.frame%len(self.anime)]
+        if self.spdx != 0 or self.spdy != 0:
+            self.frame += self.framespd
+            self.img = self.anime[int(self.frame)%len(self.anime)]
+            self.img.x = self.x
+            self.img.y = self.y

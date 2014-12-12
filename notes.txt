@@ -2,3 +2,12 @@
 2. hard code map
 3. how to decide how many files to have; lib.py?
 4. pyglet????
+
+special things I learned:
+ - mapcreator
+ - mapeditor
+ - image manipulating
+ - filename editting
+ - screen in right position
+ - serialization on map data
+ - implement sprite animation
