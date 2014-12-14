@@ -3,6 +3,15 @@
 3. how to decide how many files to have; lib.py?
 4. pyglet????
 
+Things to implement:
+ - Ground detection and Gravity
+ - sprite center calibration
+ - combo input
+ - double character
+ - network (server/client)
+
+
+
 special things I learned:
  - mapcreator
  - mapeditor
@@ -11,3 +20,4 @@ special things I learned:
  - screen in right position
  - serialization on map data
  - implement sprite animation
+

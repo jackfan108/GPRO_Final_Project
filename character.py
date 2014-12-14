@@ -4,7 +4,7 @@ import Image
 from sprite import *
 
 class Character(object):
-    def __init__(self, x, y, path, spdx = 0, spdy = 0):
+    def __init__(self, x, y, path, BG, spdx = 0, spdy = 0):
         self.x = x
         self.y = y
         self.spdx = spdx
@@ -17,6 +17,7 @@ class Character(object):
         self.frame = 0
         self.framespd = 1.0/3
         self.anime = self.sprite.sprite['walk1L']
+        self.map = BG
 
     def move(self, dx, dy):
         self.x += dx

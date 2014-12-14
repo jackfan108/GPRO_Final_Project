@@ -2,15 +2,19 @@ import pyglet
 from Map import *
 from player import *
 
-window = pyglet.window.Window(1200, 800, resizable=True)#fullscreen = True
-#window =pyglet.window.Window(fullscreen = True)
+#window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
+window =pyglet.window.Window(fullscreen = True)
 
-print window.width, window.height
+#print window.width, window.height
 
 spd = 15
 
 def backgroundSetup():
-    pass
+    pic = pyglet.resource.image('image/bg.png')
+    pic.height = int(pic.height * 1.)4
+    pic.width = int(pic.width * 1.5)
+    pic = pyglet.sprite.Sprite(pic)
+    return pic
 
 def musicSetup():
     music = pyglet.media.Player()
@@ -33,17 +37,27 @@ def main():
 @window.event
 def on_draw():
     window.clear()
+    pic.draw()
     bg.draw()
     player.draw()
     x1 = player.mid[0] - player.mid[2]
     x2 = player.mid[0] + player.mid[2]
     y1 = player.mid[1] - player.mid[2]
     y2 = player.mid[1] + player.mid[2]
-    pyglet.gl.glColor4f(0, 0, 255, 1)
+
+    #206, 140
+    pyglet.gl.glColor4f(255, 255, 255, 1)
+    w = player.img.x
+    z = player.img.y
     pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x1, y2)))
     pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x2, y1, x2, y2)))
     pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y2, x2, y2)))
     pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x2, y1)))
+    pyglet.gl.glColor4f(0, 0, 255, 1)
+    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w + 51, z)))
+    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w+51, z, w+51, z+71)))
+    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z+71, w+51, z+71)))
+    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w, z+71)))
 
 
 @window.event
@@ -52,7 +66,8 @@ def on_key_press(symbol, modifiers):
         player.spdx -= spd
         player.anime = player.sprite.sprite['walk1L']
     elif symbol == 65362:
-        player.spdy += spd
+        player.jump(spd*2)
+        player.spdy = spd*2
     elif symbol == 65363:
         player.spdx += spd
         player.anime = player.sprite.sprite['walk1R']
@@ -75,26 +90,28 @@ def on_key_release(symbol, modifiers):
     if symbol == 65361:
         player.spdx += spd
     elif symbol == 65362:
-        player.spdy -= spd
+        pass
     elif symbol == 65363:
         player.spdx -= spd
     elif symbol == 65364:
-        player.spdy += spd
-
+        pass
 def update(dt):
     bg.move(bg.spdx, bg.spdy)
     player.move(player.spdx, player.spdy)
+    print player.spdy
     #print player.x, player.y
     player.nextframe()
-    #print bg.lim, bg.cord
+    #print player.onGround, player.spdy
+    #print player.y
 
 
 
 if __name__ == '__main__':
     #music = musicSetup()
     bg = Map.pickleLoad('map1.p')
+    pic = backgroundSetup()
     bg.lim = (-40, -950)
-    player = Player(700, 250, '/image/Jack', bg, (window.width, window.height))
+    player = Player(600, 350, '/image/BrendanNew2', bg, (window.width, window.height))
     bg.ylim = (-150, -2000)
     bg.pickleDump('map1.p')
     print bg.xlim, bg.ylim

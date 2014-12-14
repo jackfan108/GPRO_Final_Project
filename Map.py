@@ -50,6 +50,7 @@ class Map(object):
             ground.draw()
 
 class Cord(object):
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -81,6 +82,16 @@ class Ground(object):
         x2 = self.left.x
         y2 = self.left.y
         pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x2, y2)))
+
+    def onGroundY(self, n):
+        if n == self.left.y:
+            return True
+        return False
+
+    def onGroundX(self, n):
+        if self.left.x <= n <= self.right.x:
+            return True
+        return False
 
 class Rope(object):
 

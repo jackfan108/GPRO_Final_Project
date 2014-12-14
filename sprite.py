@@ -11,7 +11,7 @@ class Sprite(object):
         for name in spritelist:
             for i in range(len(name)):
                 if name[i] == '_':
-                    img = pyglet.resource.image('image/Jack/' + name)
+                    img = pyglet.resource.image('image/BrendanNew2/' + name)
                     img = pyglet.sprite.Sprite(img)
                     if name[:i] in self.sprite.keys():
                         self.sprite[name[:i]].append(img)

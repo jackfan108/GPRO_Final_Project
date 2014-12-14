@@ -4,14 +4,15 @@ import os
 import matplotlib.image as mpimg
 
 
-path = os.path.dirname(os.path.abspath(__file__)) + '/image/Jack/'
+path = os.path.dirname(os.path.abspath(__file__)) + '/image/BrendanNew/'
 spritelist = [f for f in os.listdir(path)]
 for spritename in spritelist:
     name = spritename[:-4]
-    img = Image.open("image/Jack/" + spritename)
+    print 'name = ', name
+    img = Image.open("image/BrendanNew/" + spritename)
     pos = -1
     operation = True
-    print 'name = ', name
+
     for i in range(len(name[:])):
         if name[i] == '_' and pos == -1:
             pos = i
@@ -24,4 +25,4 @@ for spritename in spritelist:
         newname = name[:pos] + 'L' + name[pos:pos+2] + '.png'
     operation = True
     print 'newname = ', newname
-    img.save("image/JackNew/" + newname)
+    img.save("image/BrendanNew2/" + newname)
