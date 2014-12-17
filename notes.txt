@@ -4,7 +4,7 @@
 4. pyglet????
 
 Things to implement:
- - Ground detection and Gravity
+v - Ground detection and Gravity
  - sprite center calibration
  - combo input
  - double character

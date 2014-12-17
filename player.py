@@ -10,49 +10,84 @@ class Player(Character):
         self.mid = (win[0]/2-100, win[1]/2, 100)
         self.onGround = False
         self.jumping = False
+        self.moving = False
+        self.state = 'stand1'
 
     def move(self, dx, dy):
-        print 'spdy', self.spdy, 'onGround', self.onGround, 'jumping', self.jumping
-        if self.XaroundMid() and self.map.XinLim(-dx):
-            self.map.move(-dx, 0)
+        if dx == 0 and dy == 0 and self.onGround:
+            if self.ori == 'left' and not self.moving:
+                self.anime = self.sprite.sprite['stand1L']
+            elif self.ori == 'right' and not self.moving:
+                self.anime = self.sprite.sprite['stand1R']
         else:
-            self.x += dx
-            self.img.x += dx
-        self.onGround, dy = self.groundCheck(dx, dy)
-        #print self.map.ylim
-        #print self.map.YinLim(-dy), 'hi'
-        if self.YaroundMid() and self.map.YinLim(-dy):
-            self.map.move(0, -dy)
-        else:
-            self.y += dy
-            self.img.y += dy
-        if self.onGround and not self.jumping:
-            self.spdy = 0
-        else:
-            self.spdy -= GRAVITY
-        if self.jumping and self.spdy == 0:
-            self.jumping = False
-
-    def groundCheck(self, dx = 0, dy = 0):
-        a = min(self.y, self.y + dy)
-        b = max(self.y, self.y + dy)
-        for ypos in range(a + 1, b + 1):
-            for ground in self.map.ground:
-                if ground.onGroundY(ypos):
-                    if ground.onGroundX(self.x + dx):
-                        return (True, ypos - self.y)
-        return (False, dy)
-
-    def jump(self, dy):
-        if not self.onGround:
-            self.jumping = True
+            if self.XaroundMid() and self.map.XinLim(-dx):
+                self.map.move(-dx, 0)
+            else:
+                self.x += dx
+                self.img.x += dx
+            temp = dy
+            self.onGround, dy = self.groundCheck(dx, dy)
+            if self.jumping:
+                dy = temp
             if self.YaroundMid() and self.map.YinLim(-dy):
                 self.map.move(0, -dy)
             else:
                 self.y += dy
                 self.img.y += dy
+            if not self.jumping:
+                if self.onGround:
+                    self.spdy = 0
+                    self.state = 'stand1'
+                else:
+                    self.spdy -= GRAVITY
+            else:
+                    self.spdy -= GRAVITY
+
+            # if self.onGround and not self.jumping:
+            #     self.spdy = 0
+            #     self.state = 'stand1'
+            # else:
+            #     self.spdy -= GRAVITY
+            
+
+
+
+            if self.jumping and self.spdy == 0:
+                self.jumping = False
+
+            if dx != 0:
+                if self.onGround:
+                    self.state = 'walk1'
+                else:
+                    self.state = 'jump'
+
+    def groundCheck(self, dx = 0, dy = 0):
+        a = min(self.y, self.y + dy)
+        b = max(self.y, self.y + dy)
+        for ypos in range(a, b + 1):
+            for ground in self.map.ground:
+                if ground.onGroundY(ypos):
+                    if ground.onGroundX(self.x + dx):
+                        if self.jumping:
+                            return (True, dy)
+                        else:
+                            return (True, ypos - self.y)
+        return (False, dy)
+
+    def jump(self, dy):
+        #m = pyglet.media.Player()
+        #m.queue(pyglet.resource.media('audio/jump.mp3'))
+        #m.play()
+        self.jumping = True
+        if self.ori == 'left':
+            self.anime = self.sprite.sprite['jumpL']
         else:
-            pass
+            self.anime = self.sprite.sprite['jumpR']
+        if self.YaroundMid() and self.map.YinLim(-dy):
+            self.map.move(0, -dy)
+        else:
+            self.y += dy
+            self.img.y += dy
 
 
     def XaroundMid(self):
@@ -65,6 +100,12 @@ class Player(Character):
 
     def draw(self):
         self.img.draw()
+
+    def stateToAnime(self):
+        if self.ori == 'left':
+            self.anime = self.sprite.sprite[self.state + 'L']
+        else:
+            self.anime = self.sprite.sprite[self.state + 'R']
 
     def loadSprite(self, mode):
         return

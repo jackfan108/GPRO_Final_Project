@@ -2,8 +2,8 @@ import pyglet
 from Map import *
 from player import *
 
-#window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
-window =pyglet.window.Window(fullscreen = True)
+window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
+#window =pyglet.window.Window(fullscreen = True)
 
 #print window.width, window.height
 
@@ -11,7 +11,7 @@ spd = 15
 
 def backgroundSetup():
     pic = pyglet.resource.image('image/bg.png')
-    pic.height = int(pic.height * 1.)4
+    pic.height = int(pic.height * 1.4)
     pic.width = int(pic.width * 1.5)
     pic = pyglet.sprite.Sprite(pic)
     return pic
@@ -64,15 +64,17 @@ def on_draw():
 def on_key_press(symbol, modifiers):
     if symbol == 65361:
         player.spdx -= spd
-        player.anime = player.sprite.sprite['walk1L']
+        player.ori = 'left'
     elif symbol == 65362:
         player.jump(spd*2)
         player.spdy = spd*2
+        player.state = 'jump'
     elif symbol == 65363:
         player.spdx += spd
-        player.anime = player.sprite.sprite['walk1R']
+        player.ori = 'right'
     elif symbol == 65364:
-        player.spdy -= spd
+        player.spdy -= spd*2
+        player.jumping = True
 
 # @window.event
 # def on_text_motion(motion, *args):
@@ -98,11 +100,8 @@ def on_key_release(symbol, modifiers):
 def update(dt):
     bg.move(bg.spdx, bg.spdy)
     player.move(player.spdx, player.spdy)
-    print player.spdy
-    #print player.x, player.y
+    player.stateToAnime()
     player.nextframe()
-    #print player.onGround, player.spdy
-    #print player.y
 
 
 
@@ -114,7 +113,6 @@ if __name__ == '__main__':
     player = Player(600, 350, '/image/BrendanNew2', bg, (window.width, window.height))
     bg.ylim = (-150, -2000)
     bg.pickleDump('map1.p')
-    print bg.xlim, bg.ylim
 
     pyglet.clock.schedule_interval(update, 1/30.)
     pyglet.app.run()
