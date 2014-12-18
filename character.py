@@ -11,7 +11,7 @@ class Character(object):
         self.spdy = spdy
         self.sprite = Sprite(path)
         self.img = self.sprite.sprite['standL'][0]
-        self.img.x = self.x
+        self.img.x = self.x - self.img._texture.width/2
         self.img.y = self.y
         self.frame = 0
         self.framespd = 1.0/3
@@ -31,5 +31,5 @@ class Character(object):
     def nextframe(self):
         self.frame += self.framespd
         self.img = self.anime[int(self.frame)%len(self.anime)]
-        self.img.x = self.x
+        self.img.x = self.x - self.img._texture.width/2
         self.img.y = self.y

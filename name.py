@@ -4,13 +4,13 @@ import os
 import matplotlib.image as mpimg
 
 
-path = os.path.dirname(os.path.abspath(__file__)) + '/image/Mobs/Snail/'
+path = os.path.dirname(os.path.abspath(__file__)) + '/image/Arrows/redArrow'
 spritelist = [f for f in os.listdir(path)]
 for spritename in spritelist:
     if spritename[-4:] == '.png':
         name = spritename[:-4]
         print 'name = ', name
-        img = Image.open("image/Mobs/Snail/" + spritename)
+        img = Image.open("image/Arrows/redArrow/" + spritename)
         pos = -1
         operation = True
 
@@ -26,4 +26,4 @@ for spritename in spritelist:
             newname = name[:pos] + 'L' + name[pos:pos+2] + '.png'
         operation = True
         print 'newname = ', newname
-        img.save("image/Mobs/SnailNew/" + newname)
+        img.save("image/Arrows/redArrowNew/" + newname)

@@ -6,7 +6,7 @@ from mobs import *
 
 #window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
 window = pyglet.window.Window(fullscreen = True)
-
+    
 #print window.width, window.height
 
 spd = 15
@@ -62,8 +62,9 @@ def on_draw():
     window.clear()
     pic.draw()
     bg.draw()
+    mobDraw()    
     player.draw()
-    mobDraw()
+
     x1 = player.mid[0] - player.mid[2]
     x2 = player.mid[0] + player.mid[2]
     y1 = player.mid[1] - player.mid[2]
@@ -74,20 +75,19 @@ def on_draw():
     pyglet.gl.glColor4f(255, 255, 255, 1)
     w = player.img.x
     z = player.img.y
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x1, y2)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x2, y1, x2, y2)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y2, x2, y2)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x2, y1)))
-    pyglet.gl.glColor4f(0, 0, 255, 1)
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w + 51, z)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w+51, z, w+51, z+71)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z+71, w+51, z+71)))
-    pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w, z+71)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x1, y2)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x2, y1, x2, y2)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y2, x2, y2)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x2, y1)))
+    # pyglet.gl.glColor4f(0, 0, 255, 1)
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w + 51, z)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w+51, z, w+51, z+71)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z+71, w+51, z+71)))
+    # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w, z+71)))
 
 
 @window.event
 def on_key_press(symbol, modifiers):
-    print symbol
     if symbol == 65361:
         player.spdx -= spd
         player.ori = 'left'
@@ -134,6 +134,7 @@ def on_key_release(symbol, modifiers):
     elif symbol == 100:
         player.state = 'stand'
 def update(dt):
+    #print player.x, player.img.x
     bg.move(bg.spdx, bg.spdy)
     player.move(player.spdx, player.spdy)
     player.stateToAnime()

@@ -48,8 +48,8 @@ class Map(object):
 
     def draw(self):
         self.img.draw()
-        for ground in self.ground:
-            ground.draw()
+        # for ground in self.ground:
+        #     ground.draw()
 
 class Cord(object):
 

@@ -4,13 +4,13 @@ import os
 import matplotlib.image as mpimg
 
 
-path = os.path.dirname(os.path.abspath(__file__)) + '/image/Mobs/Snail'
+path = os.path.dirname(os.path.abspath(__file__)) + '/image/Arrows/redArrow'
 spritelist = [f for f in os.listdir(path)]
 for spritename in spritelist:
     if spritename[-4:] != '.png':
         continue
     name = spritename[:-4]
     print name
-    img = Image.open("image/Mobs/Snail/" + spritename)
+    img = Image.open("image/Arrows/redArrow/" + spritename)
     img = ImageOps.mirror(img)
-    img.save("image/Mobs/SnailNew/" + name + '_flip.png')
+    img.save("image/Arrows/redArrowNew/" + name + '_flip.png')
