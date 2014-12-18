@@ -20,4 +20,4 @@ special things I learned:
  - screen in right position
  - serialization on map data
  - implement sprite animation
-
+ - complicated logic with map moving + character moving + animation switching

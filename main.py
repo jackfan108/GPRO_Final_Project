@@ -1,9 +1,11 @@
 import pyglet
+from random import choice
 from Map import *
 from player import *
+from mobs import *
 
-window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
-#window =pyglet.window.Window(fullscreen = True)
+#window = pyglet.window.Window(800, 600, resizable=True)#fullscreen = True
+window = pyglet.window.Window(fullscreen = True)
 
 #print window.width, window.height
 
@@ -18,8 +20,8 @@ def backgroundSetup():
 
 def musicSetup():
     music = pyglet.media.Player()
-    music.queue(pyglet.resource.media('audio/West_of_Henesys.mp3'))
     music.queue(pyglet.resource.media('audio/login_music.mp3'))
+    music.queue(pyglet.resource.media('audio/West_of_Henesys.mp3'))
     music.play()
     music.eos_action = music.EOS_NEXT
     return music
@@ -29,6 +31,27 @@ def pygletSetup():
 
 def utilitySetup():
     pass
+
+def mobsSetup():
+    mob_list = []
+    for i in range(20):
+        mob_list.append(Mobs('/image/Mobs/SnailNew', bg, spdx = 1))
+    bg.mobs = {'Snail' : mob_list}
+    return bg.mobs
+
+def mobUpdate():
+    [[mob.move(mob.spdx, mob.spdy) for mob in bg.mobs[name]] for name in bg.mobs]
+    [[mob.behavior() for mob in bg.mobs[name]] for name in bg.mobs]
+    [[mob.stateToAnime() for mob in bg.mobs[name]] for name in bg.mobs]
+    [[mob.nextframe() for mob in bg.mobs[name]] for name in bg.mobs]
+    [[mob.debug() for mob in bg.mobs[name]] for name in bg.mobs]
+
+
+
+def mobDraw():
+    for mobs in bg.mobs:
+        for mob in bg.mobs[mobs]:
+            mob.draw()
 
 def main():
     pass
@@ -40,10 +63,12 @@ def on_draw():
     pic.draw()
     bg.draw()
     player.draw()
+    mobDraw()
     x1 = player.mid[0] - player.mid[2]
     x2 = player.mid[0] + player.mid[2]
     y1 = player.mid[1] - player.mid[2]
     y2 = player.mid[1] + player.mid[2]
+    
 
     #206, 140
     pyglet.gl.glColor4f(255, 255, 255, 1)
@@ -62,6 +87,7 @@ def on_draw():
 
 @window.event
 def on_key_press(symbol, modifiers):
+    print symbol
     if symbol == 65361:
         player.spdx -= spd
         player.ori = 'left'
@@ -75,6 +101,12 @@ def on_key_press(symbol, modifiers):
     elif symbol == 65364:
         player.spdy -= spd*2
         player.jumping = True
+    elif symbol == 97:
+        player.state = choice(['stabO1', 'stabO2', 'stabOF', 'stabT1', 'stabT2', 'stabTF'])
+    elif symbol == 115:
+        player.state = choice(['shoot1', 'shoot2', 'shootF'])
+    elif symbol == 100:
+        player.state = choice(['swingO1', 'swingO2', 'swingO3', 'swingOF', 'swingP1', 'swingP2', 'swingPF'])
 
 # @window.event
 # def on_text_motion(motion, *args):
@@ -91,24 +123,33 @@ def on_key_press(symbol, modifiers):
 def on_key_release(symbol, modifiers):
     if symbol == 65361:
         player.spdx += spd
-    elif symbol == 65362:
-        pass
     elif symbol == 65363:
         player.spdx -= spd
     elif symbol == 65364:
         pass
+    elif symbol == 97:
+        player.state = 'stand'
+    elif symbol == 115:
+        player.state = 'stand'
+    elif symbol == 100:
+        player.state = 'stand'
 def update(dt):
     bg.move(bg.spdx, bg.spdy)
     player.move(player.spdx, player.spdy)
     player.stateToAnime()
     player.nextframe()
+    mobUpdate()
+
+
 
 
 
 if __name__ == '__main__':
-    #music = musicSetup()
+    music = musicSetup()
     bg = Map.pickleLoad('map1.p')
+    #window.push_handlers(pyglet.window.event.WindowEventLogger())
     pic = backgroundSetup()
+    bg.mobs = mobsSetup()
     bg.lim = (-40, -950)
     player = Player(600, 350, '/image/BrendanNew2', bg, (window.width, window.height))
     bg.ylim = (-150, -2000)

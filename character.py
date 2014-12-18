@@ -10,12 +10,12 @@ class Character(object):
         self.spdx = spdx
         self.spdy = spdy
         self.sprite = Sprite(path)
-        self.img = self.sprite.sprite['stand1L'][0]
+        self.img = self.sprite.sprite['standL'][0]
         self.img.x = self.x
         self.img.y = self.y
         self.frame = 0
         self.framespd = 1.0/3
-        self.anime = self.sprite.sprite['stand1L']
+        self.anime = self.sprite.sprite['standL']
         self.map = BG
         self.ori = 'left'
 

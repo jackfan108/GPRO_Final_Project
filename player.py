@@ -11,14 +11,14 @@ class Player(Character):
         self.onGround = False
         self.jumping = False
         self.moving = False
-        self.state = 'stand1'
+        self.state = 'stand'
 
     def move(self, dx, dy):
         if dx == 0 and dy == 0 and self.onGround:
             if self.ori == 'left' and not self.moving:
-                self.anime = self.sprite.sprite['stand1L']
+                self.anime = self.sprite.sprite['standL']
             elif self.ori == 'right' and not self.moving:
-                self.anime = self.sprite.sprite['stand1R']
+                self.anime = self.sprite.sprite['standR']
         else:
             if self.XaroundMid() and self.map.XinLim(-dx):
                 self.map.move(-dx, 0)
@@ -37,7 +37,7 @@ class Player(Character):
             if not self.jumping:
                 if self.onGround:
                     self.spdy = 0
-                    self.state = 'stand1'
+                    self.state = 'stand'
                 else:
                     self.spdy -= GRAVITY
             else:
@@ -75,9 +75,9 @@ class Player(Character):
         return (False, dy)
 
     def jump(self, dy):
-        #m = pyglet.media.Player()
-        #m.queue(pyglet.resource.media('audio/jump.mp3'))
-        #m.play()
+        m = pyglet.media.Player()
+        m.queue(pyglet.resource.media('audio/jump.mp3'))
+        m.play()
         self.jumping = True
         if self.ori == 'left':
             self.anime = self.sprite.sprite['jumpL']

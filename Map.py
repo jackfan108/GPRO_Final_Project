@@ -17,13 +17,15 @@ class Map(object):
         self.rope = rope
         self.xlim = xlim
         self.ylim = ylim
+        self.mobs = []
 
     def move(self, dx, dy):
         self.cord.x += dx
         self.cord.y += dy
         self.img.x += dx
         self.img.y += dy
-        [ground.move(dx,dy) for ground in self.ground]
+        [ground.move(dx, dy) for ground in self.ground]
+        [[mob.move(dx, dy) for mob in self.mobs[name]] for name in self.mobs]
 
     def XinLim(self, x=0):
         return self.xlim[1] <= self.cord.x + x <= self.xlim[0]
@@ -95,6 +97,19 @@ class Ground(object):
 
 class Rope(object):
 
-    def __init__(self, top, bottom):
+    def __init__(self, top, bot):
         self.top = top
-        self.bottom = bottom
+        self.bot = bot
+
+    def move(self, dx, dy):
+        self.top.x += dx
+        self.bot.x += dx
+        self.top.y += dy
+        self.bot.y += dy
+
+    def draw(self):
+        x1 = self.top.x
+        y1 = self.top.y
+        x2 = self.bot.x
+        y2 = self.bot.y
+        pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( x1, y1, x2, y2)))
