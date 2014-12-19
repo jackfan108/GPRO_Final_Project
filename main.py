@@ -44,7 +44,7 @@ def mobUpdate():
     [[mob.behavior() for mob in bg.mobs[name]] for name in bg.mobs]
     [[mob.stateToAnime() for mob in bg.mobs[name]] for name in bg.mobs]
     [[mob.nextframe() for mob in bg.mobs[name]] for name in bg.mobs]
-    [[mob.debug() for mob in bg.mobs[name]] for name in bg.mobs]
+    [[mob.debug() for mob in bg.mobs[name]] for name in bg.mobs] # for debuggin purposes
 
 
 
@@ -85,6 +85,7 @@ def on_draw():
     # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z+71, w+51, z+71)))
     # pyglet.graphics.draw(2, pyglet.gl.GL_LINES, ('v2i', ( w, z, w, z+71)))
 
+    # the above code can be uncommented for debug purposes
 
 @window.event
 def on_key_press(symbol, modifiers):
@@ -107,6 +108,8 @@ def on_key_press(symbol, modifiers):
         player.state = choice(['shoot1', 'shoot2', 'shootF'])
     elif symbol == 100:
         player.state = choice(['swingO1', 'swingO2', 'swingO3', 'swingOF', 'swingP1', 'swingP2', 'swingPF'])
+
+    # hitting 'a', 's', 'd' would randomly generate various animations
 
 # @window.event
 # def on_text_motion(motion, *args):

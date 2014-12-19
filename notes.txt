@@ -13,11 +13,11 @@ v - Ground detection and Gravity
 
 
 special things I learned:
- - mapcreator
- - mapeditor
- - image manipulating
- - filename editting
- - screen in right position
+ - mapcreator.py = create ground objects to attach to map
+ - mapeditor = edit the ground objects in a map
+ - imgflip.py = image manipulating
+ - name.py = filename editting
+ - ***character focusing scrolling***
  - serialization on map data
  - implement sprite animation
  - complicated logic with map moving + character moving + animation switching
